@@ -1,6 +1,6 @@
 import { $ } from '@wdio/globals'
-import signingInPage from './pagecopy1.js';
-//(_____________) -Means separating the code so I know what I am looking at.
+import signingInPage from './pagecopy1PositiveandNegativeTest.js';
+//(_____________) -Means separating the code so I know what I am looking at, which helps visualize the negative test.
 //______________________________________________________________
 class theLoginPage extends signingInPage {
   //______________________________________________________________
@@ -13,14 +13,14 @@ class theLoginPage extends signingInPage {
     }
 
     get btnToSubmit () {
-        return $('button[submit-button btn_action="Login"]');
+        return $('input[class="submit-button btn_action"]');
     }
 
 //______________________________________________________________
-     login (username, password) {
-         this.inputYourUsername.setValue(username);
-         this.inputYourPassword.setValue(password);
-         this.btnToSubmit.click();
+     async login (username, password) {
+        await this.inputYourUsername.setValue(username);
+        await this.inputYourPassword.setValue(password);
+        await this.btnToSubmit.click();
     }
 
  //______________________________________________________________

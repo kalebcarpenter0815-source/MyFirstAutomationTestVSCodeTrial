@@ -73,14 +73,12 @@ class theSecurePage extends myPage {
     async clickTheXBtn () {
         await (this.theXBtn()).click();
     }
-
+// -------------------
     get logoutLink () {
         return () => $('//a[@id="logout_sidebar_link"]');
     }
-
      async clickLogoutLink () {
         await (this.logoutLink()).click();
     }
 }
-
 export default new theSecurePage();

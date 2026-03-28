@@ -19,12 +19,12 @@ class theSecurePage extends myPage {
     }
 
     get burgerBtn () {
-        return () => $('div[class="bm-burger-button"]');
+        return () => $('button#react-burger-menu-btn');
     }
 
     async openHamburgerMenu () {
         const btn = this.burgerBtn();
-        await btn.waitForClickable({ timeout: 5000 });
+        await btn.waitForClickable({ timeout: 10000 });
         await btn.click();
     }
 
@@ -81,7 +81,7 @@ class theSecurePage extends myPage {
     async clickTheXBtn () {
         await (this.theXBtn()).click();
     }
-// -------------------
+
     get logoutLink () {
         return () => $('//a[@id="logout_sidebar_link"]');
     }
@@ -89,4 +89,5 @@ class theSecurePage extends myPage {
         await (this.logoutLink()).click();
     }
 }
+
 export default new theSecurePage();

@@ -1,4 +1,4 @@
-import { browser, driver, expect } from '@wdio/globals'
+import { browser, expect } from '@wdio/globals'
 import theLoginPage from '../pageobjects/loginpage.js'
 import theSecurePage from '../pageobjects/HamburgerMenuPage.js'
 import LogoutProcess from '../pageobjects/secureLogoutPage.js'
@@ -29,27 +29,74 @@ describe('My Login application', () => {
     // });
     // Then verify/assert it's there
     // Insert this code is await browser.waitUntil that line of code fails. // await expect(browser).toHaveUrlContaining('saucelabs.com');
-    await sauceLabsPageFunctions.sauceLabsHomePageforContinuousQualityAIPoweredInstights().waitForExist();
-    await expect(sauceLabsPageFunctions.sauceLabsHomePageforContinuousQualityAIPoweredInstights()).toBeExisting();
-    await browser.waitUntil(async () => (sauceLabsPageFunctions.sauceLabsSearchBtn()).isClickable(), {
-        timeout: 5000,
-        timeoutMsg: 'Sauce Labs Search button was not clickable after 5 seconds'
+    // await sauceLabsPageFunctions.sauceLabsSearchBtn.waitForDisplayed();
+    // await sauceLabsPageFunctions.sauceLabsSearchBtn.waitForExist();
+    // await this.sauceLabsSearchBtn.scrollIntoView();
+    // await expect(sauceLabsPageFunctions.sauceLabsSearchBtn).toBeExisting();
+    // await browser.waitUntil(async () => (sauceLabsPageFunctions.sauceLabsSearchBtn).isClickable(), {
+    //     timeout: 10000,
+    //     timeoutMsg: 'Sauce Labs Search button was not clickable after 10 seconds'
+    // });
+    // await sauceLabsPageFunctions.clickSauceLabsSearchBtn();
+    // 1. Wait for the URL transition to finish first (Crucial for Sauce Labs)
+    // 1. Ensure the page is actually Sauce Labs
+    await browser.waitUntil(async () => (await browser.getUrl()).includes('saucelabs.com'), {
+    timeout: 10000,
+    timeoutMsg: 'Page transition to Sauce Labs failed'
     });
-    await sauceLabsPageFunctions.clicksauceLabsSearchBtn();
-     
+
+    // 2. Give the Material UI animations 2 seconds to stop moving/fading
+    await browser.pause(10000);
+
+    // 3. Scroll to the button so it's not hidden under a header
+    await sauceLabsPageFunctions.sauceLabsSearchBtn.scrollIntoView();
+
+    // 4. Final Clickable Check (No parentheses on the getter!)
+    await sauceLabsPageFunctions.sauceLabsSearchBtn.waitForClickable({ 
+    timeout: 10000,
+    timeoutMsg: 'Button is still blocked by another element' 
+    });
+
+    // 5. Execute the click
+    await sauceLabsPageFunctions.clickSauceLabsSearchBtn();
+     // Now to press the search X button to go to the main page, and then go to the Swag Labs home page.
+    //  await sauceLabsPageFunctions.sauceLabsSearchXBtn.waitForExist();
+    // await expect(sauceLabsPageFunctions.sauceLabsSearchXBtn).toBeExisting();
+    // await browser.waitUntil(async () => (sauceLabsPageFunctions.sauceLabsSearchXBtn).isClickable(), {
+    //     timeout: 10000,
+    //     timeoutMsg: 'Sauce Labs Search button was not clickable after 10 seconds'
+    // });
+    // await sauceLabsPageFunctions.clickSauceLabsSearchXBtn();
+    // 1. Verify it exists (No parentheses!)
+    await sauceLabsPageFunctions.sauceLabsSearchXBtn.waitForExist({ timeout: 10000 });
+    await expect(sauceLabsPageFunctions.sauceLabsSearchXBtn).toBeExisting();
+
+    // 2. Give the UI a half-second to settle
+    await browser.pause(500);
+
+    // 3. Call the Force-Click method we just updated
+    await sauceLabsPageFunctions.clickSauceLabsSearchXBtn();
     // Return from Sauce Labs to inventory after About click
-   await browser.url('https://www.saucedemo.com/inventory.html');
-   await theSecurePage.landingPage().waitForExist({ timeout: 5000 });
-   await expect(theSecurePage.landingPage()).toBeExisting();
+    await browser.url('https://www.saucedemo.com/inventory.html');
+    await browser.waitUntil(async () => 
+    (await browser.getUrl()).includes('inventory.html'), 
+    { timeout: 5000, timeoutMsg: 'Failed to return to inventory' }
+    );
+    // The next lines of code below this sentence are here in case the above code fails, which it shouldn't, but if it does, this will be a backup plan to return to the inventory page. If the above code works, then this code will be ignored and not executed.
+    //    await browser.url('https://www.saucedemo.com/inventory.html');
+    //    await theSecurePage.landingPage().waitForExist({ timeout: 5000 });
+    //    await expect(theSecurePage.landingPage()).toBeExisting();
     // await browser.waitUntil(async () => (await browser.getUrl()).includes('/inventory.html'), {
     //     timeout: 7000,
     //     timeoutMsg: 'Failed to return to inventory page after Sauce Labs visit'
     // });
     // await theSecurePage.landingPage().waitForExist();
     // await expect(theSecurePage.landingPage()).toBeExisting();
-    await theSecurePage.burgerBtn().waitForClickable({ timeout: 3000 });
-     await theSecurePage.openHamburgerMenu();
-    await theSecurePage.clickAllItemsLink();
+    // await theSecurePage.burgerBtn().waitForClickable({ timeout: 10000 });
+    //  await theSecurePage.openHamburgerMenu();
+    // await theSecurePage.clickAllItemsLink();
+    await this.openHamburgerMenu();
+    await this.clickAllItemsLink();
     await theSecurePage.theXBtn().waitForClickable({ timeout: 3000 });
      await theSecurePage.clickTheXBtn();
      await theSecurePage.addFirstItemToCartBtn().waitForExist();

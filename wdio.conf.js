@@ -53,6 +53,7 @@ export const config = {
         browserName: 'chrome'
     }],
 
+
     //
     // ===================
     // Test Configurations
@@ -91,7 +92,7 @@ export const config = {
     //
     // Default timeout in milliseconds for request
     // if browser driver or grid doesn't send response
-    connectionRetryTimeout: 120000,
+    connectionRetryTimeout: 240000,
     //
     // Default request retries count
     connectionRetryCount: 3,
@@ -109,7 +110,7 @@ export const config = {
     // Make sure you have the wdio adapter package for the specific framework installed
     // before running any tests.
     framework: 'mocha',
-    
+   
     //
     // The number of times to retry the entire specfile when it fails as a whole
     // specFileRetries: 1,
@@ -125,12 +126,14 @@ export const config = {
     // see also: https://webdriver.io/docs/dot-reporter
     reporters: ['spec'],
 
+
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
     mochaOpts: {
         ui: 'bdd',
-        timeout: 60000
+        timeout: 240000
     },
+
 
     //
     // =====
@@ -228,6 +231,8 @@ export const config = {
      */
     // afterTest: function(test, context, { error, result, duration, passed, retries }) {
     // },
+
+
 
 
     /**

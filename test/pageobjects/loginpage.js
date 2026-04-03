@@ -5,13 +5,16 @@ class theLoginPage extends signingInPage {
         return () => $('#user-name');
     }
 
+
     get inputYourPassword () {
         return () => $('#password');
     }
 
+
     get btnToSubmit () {
         return () => $('input[class="submit-button btn_action"]');
     }
+
 
      async login (username, password) {
         await (this.inputYourUsername()).setValue(username);
@@ -19,9 +22,11 @@ class theLoginPage extends signingInPage {
         await (this.btnToSubmit()).click();
     }
 
+
     open () {
         return super.open('login');
     }
 }
+
 
 export default new theLoginPage();

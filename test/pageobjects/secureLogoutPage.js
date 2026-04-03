@@ -1,5 +1,5 @@
 import signingInPage from './thesigningInPage.js';
-import { browser } from '@wdio/globals';
+import { $, browser } from '@wdio/globals';
 
 class LogoutProcess extends signingInPage {
     get hamburgerMenu () {

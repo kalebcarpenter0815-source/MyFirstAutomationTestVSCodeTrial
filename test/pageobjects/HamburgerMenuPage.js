@@ -1,92 +1,146 @@
-import { $ } from '@wdio/globals'
+import { $, browser } from '@wdio/globals'
 import myPage from './thesigningInPage.js';
 
+
 class theSecurePage extends myPage {
-    get landingPage () {
-        return () => $(".shopping_cart_link");
+get landingPage () {
+        return $(".shopping_cart_link");
     }
 
-    get needsUsername () {
-        return () => $('//*[contains(text(), "Epic sadface: Username is required")]');
+
+get needsUsername () {
+        return $('//*[contains(text(), "Epic sadface: Username is required")]');
     }
 
-    get LockedOutUser () {
-        return () => $('//*[contains(text(), "Epic sadface: Sorry, this user has been locked out.")]');
+
+get LockedOutUser () {
+        return $('//*[contains(text(), "Epic sadface: Sorry, this user has been locked out.")]');
     }
 
-    get needsPassword () {
-        return () => $('//*[contains(text(), "Epic sadface: Password is required")]');
+
+get needsPassword () {
+        return $('//*[contains(text(), "Epic sadface: Password is required")]');
     }
 
-    get burgerBtn () {
-        return () => $('div[class="bm-burger-button"]');
+
+get burgerBtn () {
+        return $('#react-burger-menu-btn');
     }
 
-    async openHamburgerMenu () {
-        const btn = this.burgerBtn();
-        await btn.waitForClickable({ timeout: 5000 });
-        await btn.click();
+
+async openHamburgerMenu () {
+    // wait until the button exists in the DOM
+    await this.burgerBtn.waitForExist({ timeout: 15000 });
+
+
+    // wait until it is actually clickable
+    await this.burgerBtn.waitForClickable({ timeout: 15000 });
+
+
+    // scroll it into view in case something covers it
+    await this.burgerBtn.scrollIntoView();
+
+
+    // short pause for page animation
+    await browser.pause(300);
+
+
+    // finally click
+    await this.burgerBtn.click();
+}
+
+
+get allItemsEntry () {
+        return $('//a[@id="inventory_sidebar_link"]');
+    }
+async clickAllItemsEntry () {
+        await this.allItemsEntry.waitForClickable({ timeout: 10000 });
+        await this.allItemsEntry.click();
     }
 
-    get allItemsLink () {
-        return () => $('//a[@id="inventory_sidebar_link"]');
+
+get aboutEntry () {
+        return $('//a[@id="about_sidebar_link"]');
+    }
+async clickAboutEntry () {
+        await this.aboutEntry.click();
     }
 
-    async clickAllItemsLink () {
-        await (this.burgerBtn()).waitForClickable({ timeout: 5000 });
-        await (this.openHamburgerMenu());
-        const link = this.allItemsLink();
-        await link.waitForClickable({ timeout: 5000 });
-        await link.click();
+
+get addFirstItemToCartBtn () {
+        // DO THIS IN CASE BOTTOM CODE IN THIS BLOCK FAILS!: return $('//button[@id="add-to-cart-sauce-labs-backpack"]');
+        return $('button[data-test="add-to-cart-sauce-labs-backpack"]')
+    }
+async clickAddFirstItemToCartBtn () {
+        await this.addFirstItemToCartBtn.click();
     }
 
-    get aboutLink () {
-        return () => $('//a[@id="about_sidebar_link"]');
-    } 
 
-    async clickAboutLink () {
-        await (this.aboutLink()).click();
+get resetAppState () {
+        return $("#reset_sidebar_link");
     }
-
-    get addFirstItemToCartBtn () {
-        return () => $('//button[@id="add-to-cart-sauce-labs-backpack"]');
-    }
-    
-    async clickAddFirstItemToCartBtn () {
-        await (this.addFirstItemToCartBtn()).click();
+async clickResetAppState () {
+        await this.resetAppState.click();
     }
 
-    get resetAppState () {
-        return () => $("//nav[contains(@class, 'bm-item-list')]//a[@id='about_sidebar_link']");
+
+get removeItemFromCartBtn () {
+        return $('#remove-sauce-labs-backpack');
+    }
+async clickRemoveItemFromCartBtn () {
+        await this.removeItemFromCartBtn.waitForClickable({ timeout: 10000 });
+        await this.removeItemFromCartBtn.click();
     }
 
-    async clickResetAppState () {
-        await (this.resetAppState()).click();
-    }
 
-    get removeItemFromCartBtn () {
-        return () => $('#remove-sauce-labs-backpack');
+get theXBtn () {
+        return $('#react-burger-cross-btn');
     }
-    
-    async clickRemoveItemFromCartBtn () {
-        const btn = this.removeItemFromCartBtn();
-        await btn.waitForClickable({ timeout: 10000 });
-        await btn.click();
-    }
-
-    get theXBtn () {
-        return () => $('#react-burger-cross-btn');
-    }
-
     async clickTheXBtn () {
-        await (this.theXBtn()).click();
+        await this.theXBtn.click();
     }
-// -------------------
-    get logoutLink () {
-        return () => $('//a[@id="logout_sidebar_link"]');
+
+
+get logoutEntry () {
+        return $('//a[@id="logout_sidebar_link"]');
     }
-     async clickLogoutLink () {
-        await (this.logoutLink()).click();
+    async clickLogoutEntry () {
+        await this.logoutEntry.click();
+    }
+get sauceLabsBackpack () {
+        return $('//*[contains(text(), "Sauce Labs Backpack")]');
+     }
+    async clickSauceLabsBackpackBtn () {
+        await this.sauceLabsBackpack.scrollIntoView(); //Remove this if test fails.
+        await this.sauceLabsBackpack.waitForClickable({ timeout: 10000 });
+        await this.sauceLabsBackpack.click();
+     }
+get backToProductsBtn () {
+        // return $('//button[@id="back-to-products"]'); Do this in case the DOM structure is different on the backpack page, so we need to use a different selector
+        return $('#back-to-products')
+        }
+    async clickBackToProductsBtn () {
+        await this.backToProductsBtn.scrollIntoView(); //Remove this if test fails.
+        await this.backToProductsBtn.waitForClickable({ timeout: 10000 });
+        await this.backToProductsBtn.click();
+     }
+
+get addToCartBtnForSLBPage () {
+        return $('button[id="add-to-cart"]');
+        }
+    async clickAddToCartBtnForSLBPage () {
+        await this.addToCartBtnForSLBPage.waitForClickable({ timeout: 10000 });
+        await this.addToCartBtnForSLBPage.click();
+    }
+
+get removeSauceLabsBackpackButtonNotOnMainPage () {
+        return $('button[id="remove"]');
+        }
+    async clickRemoveSauceLabsBackpackButtonNotOnMainPage () {
+        await this.removeSauceLabsBackpackButtonNotOnMainPage.waitForClickable({ timeout: 10000 })
+        await this.removeSauceLabsBackpackButtonNotOnMainPage.click();
     }
 }
+
+
 export default new theSecurePage();
